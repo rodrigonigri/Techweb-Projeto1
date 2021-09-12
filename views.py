@@ -18,8 +18,6 @@ def index(request):
         partes = request.split('\n\n')
         corpo = partes[1]
 
-        # corpo  --> "titulo=sei la&detalhes=nao sei"
-
         if corpo.startswith("titulo"):
             titulo = urllib.parse.unquote_plus(corpo.split("&")[0].split("=")[1])
             detalhe = urllib.parse.unquote_plus(corpo.split("&")[1].split("=")[1])
