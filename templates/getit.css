@@ -179,3 +179,12 @@ div.card{
   transition: width 0.2s ease-out, padding-top 0.2s ease-out;
 }
 
+#del1{
+  background-color: red;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+}

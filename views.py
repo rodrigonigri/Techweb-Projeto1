@@ -17,22 +17,23 @@ def index(request):
         # Cabeçalho e corpo estão sempre separados por duas quebras de linha
         partes = request.split('\n\n')
         corpo = partes[1]
-        params = {}
 
-        for chave_valor in corpo.split('&'):
-            params[chave_valor.split('=')[0]] = urllib.parse.unquote_plus(chave_valor.split('=')[1])
+        # corpo  --> "titulo=sei la&detalhes=nao sei"
 
-            print(params)
+        if corpo.startswith("titulo"):
+            titulo = urllib.parse.unquote_plus(corpo.split("&")[0].split("=")[1])
+            detalhe = urllib.parse.unquote_plus(corpo.split("&")[1].split("=")[1])
 
-        #add_note(params)
-        lista_valores = list(params.values())
-        banco.add(Note(title=lista_valores[0], content=lista_valores[1]))
+            banco.add(Note(title=titulo, content=detalhe))
+
+        elif corpo.startswith("delete"):
+            banco.delete(corpo.split("=")[1])
 
     # Cria uma lista de <li>'s para cada anotação
     # Se tiver curiosidade: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
     note_template = load_template('components/note.html')
     notes_li = [
-        note_template.format(title=dados.title, details=dados.content)
+        note_template.format(id=dados.id, title=dados.title, details=dados.content)
         for dados in banco.get_all()
     ]
     notes = '\n'.join(notes_li)
